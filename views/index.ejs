@@ -10,7 +10,29 @@
 
 <body>
     <%- include('./partials/nav.ejs') %>
-    <h1>Super Synergy</h1>
+    <h2>Super Synergy</h2>
+    <% allPosts.forEach(element => { %>
+    <% if (element.type === 'request') { %>
+    <h1><%= element.author %> </h1>
+    <img src=<%= element.author_url %> alt="">
+    <p style="white-space: pre-line"><%= element.request %> </p>
+    <form action="/newFeedComment/<%= element._id %>" method="POST">
+        <input type="text" name="author" id="author" placeholder="author">
+        <textarea name="comment" id="comment" cols="30" rows="10" placeholder="write a comment"></textarea>
+        <input type="submit" value="submit">
+    </form>
+    <% } else if (element.type === 'profile') {%>
+        <h2><%= element.name %> hat sich angemeldet!</h2>
+        <img src=<%= element.author_url %> alt="">
+        <p><%= element.request %> </p>
+    <% } else if (element.type === "project") { %>
+        <h2><%= element.author %> hat ein neues Projekt geteilt!</h2>
+        <img src=<%= element.author_url %> alt="">
+        <img src=<%= element.project_img %> alt="">
+        <a href=<%= element.project_url %>>Projekt link!</a>
+        <a href=<%= element.github_url %>>Git link!</a>
+        <p><%= element.request %> </p>
+    <% }}) %>
 </body>
 
 </html>
