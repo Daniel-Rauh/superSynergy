@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>Please upload your profile picture and tell us one sentence about yourself!</h2>
+    <form action="/updateIntro/<%= user.lastName %> " method="POST">
+    <input type="text" name="intro" id="intro" placeholder="intro">
+    <input type="text" name="picture" id="picture" placeholder="picture url">
+    <input type="submit" value="submit">
+    </form>
+</body>
+
+</html>

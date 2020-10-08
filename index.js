@@ -4,16 +4,27 @@ require("dotenv").config()
 const mongoose = require('mongoose')
 const moment = require('moment')
 const port = process.env.PORT || 3100
+const passportSetup = require('./config/passportSetup')
+const passport = require('passport')
+const cookieSession = require('cookie-session')
 const requestModel = require('./models/requestModel')
 const allPostModel = require('./models/allPostsModel')
 const profileModel = require('./models/profileModel')
 const projectModel = require('./models/projectModel')
+
+app.use(cookieSession({
+    name: 'session',
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: [process.env.COOKIE_KEY]
+}))
 
 app.use(express.static('public'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 app.set('views', './views')
+app.use(passport.initialize())
+app.use(passport.session())
 
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then((result) => {
@@ -24,7 +35,7 @@ mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology
     })
     .catch(err => console.log(err))
 
-app.get('/', (req, res) => {
+app.get('/feed', (req, res) => {
     allPostModel.find()
         .sort('-createdAt')
         .then((result) => {
@@ -87,7 +98,11 @@ app.post('/addProfile', (req, res) => {
 })
 
 app.get('/newProject', (req, res) => {
-    res.status(200).render('newProject')
+    projectModel.find()
+        .catch(err => console.log(err))
+        .then((result) => {
+            res.status(200).render('newProject', {projects: result})
+        })
 })
 
 app.post('/addProject', (req, res) => {
@@ -143,11 +158,56 @@ app.post('/newFeedComment/:id', (req, res) => {
                         requestModel.findOneAndUpdate({ request: result.request }, { comments: comments }, { useFindAndModify: false })
                             .catch(err => console.log(err))
                             .then((result) => {
-                                console.log(result)
                                 console.log(" Single updated")
                             })
                     })
             }
             res.redirect('/')
+        })
+})
+const checkAuth = (req, res, next) => {
+    if (req.user) {
+        next()
+    } else {
+        res.render('login')
+    }
+}
+
+app.get('/', checkAuth, (req, res) => {
+    res.redirect('/feed')
+})
+app.get('/auth/logout', (req, res) => {
+    req.logout()
+    res.redirect('/')
+})
+app.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
+    res.redirect('/intro')
+})
+app.get('/auth/google',
+    passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+app.get('/intro', (req, res) => {
+    if (req.user === undefined) {
+        profileModel.find()
+            .then((result) => {
+                console.log(result[result.length - 1])
+                res.render('intro', { user: result[result.length - 1] })
+            })
+    } else {
+        res.redirect('/feed')
+    }
+})
+
+app.post('/updateIntro/:name', (req, res) => {
+    profileModel.findOneAndUpdate({ lastName: req.params.name }, { intro: req.body.intro, picture: req.body.picture }, { useFindAndModify: false })
+        .catch(err => console.log(err))
+        .then(() => {
+
+            allPostModel.findOneAndUpdate({ lastName: req.params.name }, { intro: req.body.intro, picture: req.body.picture }, { useFindAndModify: false })
+                .catch(err => console.log(err))
+                .then((result) => {
+                    console.log(" User updated")
+                    res.redirect('/feed')
+                })
         })
 })

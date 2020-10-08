@@ -50,6 +50,21 @@ const allPostModelSchema = new Schema({
     title: {
         type: String
     },
+    picture: {
+        type: String
+    },
+    firstName: {
+        type: String
+    },
+    lastName: {
+        type: String
+    },
+    email: {
+        type: String
+    },
+    googleId: {
+        type: String
+    },
     comments: {
         type: [commentSchema]
     }
