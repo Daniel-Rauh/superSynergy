@@ -1,6 +1,15 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
+const commentSchema = new Schema({
+    author: {
+        type: String
+    },
+    comment: {
+        type: String
+    }
+})
+
 const allPostModelSchema = new Schema({
     type: {
         type:String
@@ -31,7 +40,6 @@ const allPostModelSchema = new Schema({
     },
     project_img: {
         type: String,
-        required: true
     },
     project_url: {
         type: String,
@@ -41,6 +49,9 @@ const allPostModelSchema = new Schema({
     },
     title: {
         type: String
+    },
+    comments: {
+        type: [commentSchema]
     }
 }, { timestamps: true })
 

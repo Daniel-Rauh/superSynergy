@@ -7,7 +7,6 @@ const requestModel = require('./models/requestModel')
 const allPostModel = require('./models/allPostsModel')
 const profileModel = require('./models/profileModel')
 const projectModel = require('./models/projectModel')
-const { request } = require('express')
 
 app.use(express.static('public'))
 app.use(express.json())
@@ -26,7 +25,7 @@ mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology
 
 app.get('/', (req, res) => {
     allPostModel.find()
-    .sort('-createdAt')
+        .sort('-createdAt')
         .then((result) => {
             let allPosts = result
             res.status(200).render('index', { allPosts })
@@ -80,10 +79,10 @@ app.post('/addProfile', (req, res) => {
         strength: req.body.strength,
         request: req.body.request
     }).save()
-    .then(() => {
-        console.log("I am saved")
-        res.status(201).redirect('/newProfile')
-    })
+        .then(() => {
+            console.log("I am saved")
+            res.status(201).redirect('/newProfile')
+        })
 })
 
 app.get('/newProject', (req, res) => {
@@ -111,18 +110,44 @@ app.post('/addProject', (req, res) => {
         github_url: req.body.github_url,
         request: req.body.request
     }).save()
-    .then(() => {
-        console.log("I am saved")
-        res.status(201).redirect('/newProject')
-    })
+        .then(() => {
+            console.log("I am saved")
+            res.status(201).redirect('/newProject')
+        })
 })
 
 app.post('/newFeedComment/:id', (req, res) => {
-    requestModel.findById(req.params.id)
+    allPostModel.findById(req.params.id)
         .then((result) => {
-        console.log(result.comments)
-    })
-    console.log(req.body)
-    console.log(req.params.id)
-    res.status(201).redirect('/')
+            console.log(req.body)
+            if (result.comments === undefined) {
+                let comments = [req.body]
+                allPostModel.findByIdAndUpdate({ _id: req.params.id }, { comments: comments }, { useFindAndModify: false })
+                    .catch(err => console.log(err))
+                    .then(() => {
+                        console.log(result)
+                        console.log(" All updated")
+                        requestModel.findOneAndUpdate({ _id: req.params.id }, { comments: comments }, { useFindAndModify: false })
+                            .catch(err => console.log(err))
+                            .then(() => {
+                                console.log(" All updated")
+                            })
+                    })
+            } else {
+                let comments = result.comments
+                comments.push(req.body)
+                allPostModel.findByIdAndUpdate({ _id: req.params.id }, { comments: comments }, { useFindAndModify: false })
+                    .catch(err => console.log(err))
+                    .then(() => {
+                        console.log(result)
+                        console.log(" All updated")
+                        // requestModel.findOneAndUpdate({ _id: req.params.id }, { comments: comments }, { useFindAndModify: false })
+                        //     .catch(err => console.log(err))
+                        //     .then(() => {
+                        //         console.log(" All updated")
+                        //     })
+                    })
+            }
+            res.redirect('/')
+        })
 })
