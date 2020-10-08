@@ -12,10 +12,15 @@
     <%- include('partials/header.ejs') %>
     <h2>Super Synergy</h2>
     <% allPosts.forEach(element => { %>
-    <% if (element.type === 'request') { %>
+    <% if (element.type === 'request') { %> 
+    <h3><%= moment(element.createdAt).format('DD.MM.YYYY HH:mm') %> </h3>
     <h1><%= element.author %> </h1>
     <img src=<%= element.author_url %> alt="">
     <p style="white-space: pre-line"><%= element.request %> </p>
+    <% element.comments.forEach(elt => { %>
+        <h3><%= elt.author %> hat geantwortet:</h3>
+        <p><%= elt.comment %> </p>
+    <% }) %>
     <form action="/newFeedComment/<%= element._id %>" method="POST">
         <input type="text" name="author" id="author" placeholder="author">
         <textarea name="comment" id="comment" cols="30" rows="10" placeholder="write a comment"></textarea>

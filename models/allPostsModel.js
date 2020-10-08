@@ -8,7 +8,7 @@ const commentSchema = new Schema({
     comment: {
         type: String
     }
-})
+}, {timestamps: true})
 
 const allPostModelSchema = new Schema({
     type: {
