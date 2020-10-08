@@ -9,9 +9,13 @@
 
 <body>
     <h2>Please upload your profile picture and tell us one sentence about yourself!</h2>
-    <form action="/updateIntro/<%= user.lastName %> " method="POST">
-    <input type="text" name="intro" id="intro" placeholder="intro">
-    <input type="text" name="picture" id="picture" placeholder="picture url">
+    <form action="/updateIntro/<%= user.googleId %> " method="POST">
+    <input type="text" name="intro" id="intro" placeholder="intro" required>
+    <input type="text" name="picture" id="picture" placeholder="picture url" required>
+    <input type="text" name="strength" id="strength" placeholder="Was kannst du?" required>
+    <input type="text" name="github" id="github" placeholder="github">
+    <input type="text" name="linkedin" id="linkedin" placeholder="linkedin">
+    <input type="text" name="xing" id="xing" placeholder="xing">
     <input type="submit" value="submit">
     </form>
 </body>

@@ -22,7 +22,6 @@
     <p><%= elt.comment %> </p>
     <% }) %>
     <form action="/newFeedComment/<%= element._id %>" method="POST">
-        <input type="text" name="author" id="author" placeholder="author">
         <textarea name="comment" id="comment" cols="30" rows="10" placeholder="write a comment"></textarea>
         <input type="submit" value="submit">
     </form>

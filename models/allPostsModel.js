@@ -7,6 +7,9 @@ const commentSchema = new Schema({
     },
     comment: {
         type: String
+    },
+    author_url: {
+        type: String
     }
 }, {timestamps: true})
 
@@ -63,6 +66,15 @@ const allPostModelSchema = new Schema({
         type: String
     },
     googleId: {
+        type: String
+    },
+    github: {
+        type: String
+    },
+    linkedin: {
+        type: String
+    },
+    xing: {
         type: String
     },
     comments: {
