@@ -1,6 +1,15 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
+const commentSchema = new Schema({
+    author: {
+        type: String
+    },
+    comment: {
+        type: String
+    }
+}, {timestamps: true})
+
 const projectModelSchema = new Schema({
     title: {
         type: String,
@@ -31,6 +40,9 @@ const projectModelSchema = new Schema({
     type: {
         type: String,
         required: true
+    },
+    comments: {
+        type: [commentSchema]
     }
 }, { timestamps: true })
 

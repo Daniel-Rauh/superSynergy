@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 require("dotenv").config()
 const mongoose = require('mongoose')
+const moment = require('moment')
 const port = process.env.PORT || 3100
 const requestModel = require('./models/requestModel')
 const allPostModel = require('./models/allPostsModel')
@@ -28,7 +29,7 @@ app.get('/', (req, res) => {
         .sort('-createdAt')
         .then((result) => {
             let allPosts = result
-            res.status(200).render('index', { allPosts })
+            res.status(200).render('index', { allPosts, moment })
         })
 })
 
@@ -119,18 +120,17 @@ app.post('/addProject', (req, res) => {
 app.post('/newFeedComment/:id', (req, res) => {
     allPostModel.findById(req.params.id)
         .then((result) => {
-            console.log(req.body)
             if (result.comments === undefined) {
                 let comments = [req.body]
                 allPostModel.findByIdAndUpdate({ _id: req.params.id }, { comments: comments }, { useFindAndModify: false })
                     .catch(err => console.log(err))
                     .then(() => {
-                        console.log(result)
+                        console.log(result.request)
                         console.log(" All updated")
-                        requestModel.findOneAndUpdate({ _id: req.params.id }, { comments: comments }, { useFindAndModify: false })
+                        requestModel.findOneAndUpdate({ request: result.request }, { comments: comments }, { useFindAndModify: false })
                             .catch(err => console.log(err))
                             .then(() => {
-                                console.log(" All updated")
+                                console.log(" Single updated")
                             })
                     })
             } else {
@@ -139,13 +139,13 @@ app.post('/newFeedComment/:id', (req, res) => {
                 allPostModel.findByIdAndUpdate({ _id: req.params.id }, { comments: comments }, { useFindAndModify: false })
                     .catch(err => console.log(err))
                     .then(() => {
-                        console.log(result)
                         console.log(" All updated")
-                        // requestModel.findOneAndUpdate({ _id: req.params.id }, { comments: comments }, { useFindAndModify: false })
-                        //     .catch(err => console.log(err))
-                        //     .then(() => {
-                        //         console.log(" All updated")
-                        //     })
+                        requestModel.findOneAndUpdate({ request: result.request }, { comments: comments }, { useFindAndModify: false })
+                            .catch(err => console.log(err))
+                            .then((result) => {
+                                console.log(result)
+                                console.log(" Single updated")
+                            })
                     })
             }
             res.redirect('/')
