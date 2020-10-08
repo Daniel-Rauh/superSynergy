@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <%- include('./partials/nav.ejs') %>
+    <%- include('partials/header.ejs') %>
     <h2>Super Synergy</h2>
     <% allPosts.forEach(element => { %>
     <% if (element.type === 'request') { %>
@@ -22,16 +22,16 @@
         <input type="submit" value="submit">
     </form>
     <% } else if (element.type === 'profile') {%>
-        <h2><%= element.name %> hat sich angemeldet!</h2>
-        <img src=<%= element.author_url %> alt="">
-        <p><%= element.request %> </p>
+    <h2><%= element.name %> hat sich angemeldet!</h2>
+    <img src=<%= element.author_url %> alt="">
+    <p><%= element.request %> </p>
     <% } else if (element.type === "project") { %>
-        <h2><%= element.author %> hat ein neues Projekt geteilt!</h2>
-        <img src=<%= element.author_url %> alt="">
-        <img src=<%= element.project_img %> alt="">
-        <a href=<%= element.project_url %>>Projekt link!</a>
-        <a href=<%= element.github_url %>>Git link!</a>
-        <p><%= element.request %> </p>
+    <h2><%= element.author %> hat ein neues Projekt geteilt!</h2>
+    <img src=<%= element.author_url %> alt="">
+    <img src=<%= element.project_img %> alt="">
+    <a href=<%= element.project_url %>>Projekt link!</a>
+    <a href=<%= element.github_url %>>Git link!</a>
+    <p><%= element.request %> </p>
     <% }}) %>
 </body>
 
