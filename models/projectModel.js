@@ -7,6 +7,9 @@ const commentSchema = new Schema({
     },
     comment: {
         type: String
+    },
+    author_url: {
+        type: String
     }
 }, {timestamps: true})
 

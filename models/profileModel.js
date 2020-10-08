@@ -7,7 +7,11 @@ const profileModelSchema = new Schema({
     lastName: String,
     email: String,
     picture: String,
-    intro: String
+    intro: String,
+    strength: String,
+    github: String,
+    linkedin: String,
+    xing: String,
 }, { timestamps: true })
 
 const profileModel = mongoose.model('profile', profileModelSchema)
