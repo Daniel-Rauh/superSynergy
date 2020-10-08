@@ -2,7 +2,7 @@
 
 <body>
     <%- include('partials/header.ejs') %>
-    <main id="newProjects">
+    <main id="addProjects">
         <section>
             <a href="" id="toggle-btn">Add your Project</a>
         </section>
@@ -20,30 +20,28 @@
             </form>
             <hr class="line">
         </section>
-        <section>
-            <% projectModel.forEach(element => { %>
-            <a href="<%= element.project_url%>"><img src="<%= element.project_img %> " alt=""></a>
-
+        <section id="projects">
+            <% projects.forEach(element => { %>
+            <a href=<%= element.project_url%>><img src=<%= element.project_img %> alt=""></a>
             <article>
                 <div id="projectTitel">
                     <h1><%= element.title %></h1>
                     <h6><%= element.timestamps %> </h6>
                 </div>
-                <p><%= element.comment %> </p>
+                <p><%= element.request %> </p>
                 <div id="project">
                     <div>
                         <img src="<%= element.author_url %> " alt="">
                         <h4><%= element.author %> </h4>
                     </div>
                     <div>
-                        <a href="<%= project_url %> ">Website</a>
-                        <a href="<%= github_url %> ">Github</a>
+                        <a href="<%= element.project_url %> ">Website</a>
+                        <a href="<%= element.github_url %> ">Github</a>
                     </div>
                 </div>
             </article>
             <% }) %>
         </section>
-
     </main>
     <script>
         const showForm = document.getElementById("showForm")

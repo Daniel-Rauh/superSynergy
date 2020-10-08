@@ -101,7 +101,8 @@ app.get('/newProject', (req, res) => {
     projectModel.find()
         .catch(err => console.log(err))
         .then((result) => {
-            res.status(200).render('newProject', {projects: result})
+            console.log(result)
+            res.status(200).render('newProject', { projects: result })
         })
 })
 
