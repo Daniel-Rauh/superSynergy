@@ -13,8 +13,34 @@ img{
 .hide{
       display: none;
 }
+main{
+    margin: auto 5%;
+}
+.line{
+    margin: 5vh 30%;
+    height: 2px; 
+    background-color: black;
+}
 
-
+/* Header */
+header nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    height: 10vh;
+    background-color: rgb(61, 215, 172);
+}
+header nav ul{
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+}
+header nav ul a{
+    text-decoration: none;
+    color: black;
+}
 /* Projects */
 #newProjects section:first-of-type{
     margin-top: 10vh;
@@ -27,6 +53,10 @@ img{
 }
 
 
+.forms{
+    display: flex;
+    flex-direction: column;
+}
 input, textarea{
     border: none;
     background: #e5e5e5;

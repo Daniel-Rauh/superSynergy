@@ -6,6 +6,7 @@
         <section>
             <a href="" id="toggle-btn">Add your Project</a>
         </section>
+        <hr class="line">
         <section id="projectForm">
             <form action="/addProject" method="POST" class="forms">
                 <input type="text" name="title" id="title" placeholder="title">
@@ -17,6 +18,30 @@
                 <textarea name="request" id="request" cols="30" rows="10" placeholder="desciption"></textarea>
                 <input type="submit" value="submit">
             </form>
+            <hr class="line">
+        </section>
+        <section>
+            <% projectModel.forEach(element => { %>
+            <a href="<%= element.project_url%>"><img src="<%= element.project_img %> " alt=""></a>
+
+            <article>
+                <div id="projectTitel">
+                    <h1><%= element.title %></h1>
+                    <h6><%= element.timestamps %> </h6>
+                </div>
+                <p><%= element.comment %> </p>
+                <div id="project">
+                    <div>
+                        <img src="<%= element.author_url %> " alt="">
+                        <h4><%= element.author %> </h4>
+                    </div>
+                    <div>
+                        <a href="<%= project_url %> ">Website</a>
+                        <a href="<%= github_url %> ">Github</a>
+                    </div>
+                </div>
+            </article>
+            <% }) %>
         </section>
 
     </main>

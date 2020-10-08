@@ -1,22 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/style.css">
-</head>
+<%- include('partials/head.ejs') %>
 
 <body>
     <%- include('partials/header.ejs') %>
-    <form action="/addProfile" method="POST">
-        <input type="text" name="name" id="name" placeholder="name">
-        <input type="text" name="author_url" id="author_url" placeholder="author_url">
-        <input type="text" name="strength" id="strength" placeholder="strength">
-        <textarea name="request" id="request" cols="30" rows="10" placeholder="intro"></textarea>
-        <input type="submit" value="submit">
-    </form>
+    <section>
+        <a href="" id="toggle-btn">Add your Profile</a>
+    </section>
+    <hr class="line">
+    <section id="profileForm">
+        <form action="/addProfile" method="POST" class="forms">
+            <input type="text" name="name" id="name" placeholder="name">
+            <input type="text" name="author_url" id="author_url" placeholder="author_url">
+            <input type="text" name="strength" id="strength" placeholder="strength">
+            <textarea name="request" id="request" cols="30" rows="10" placeholder="intro"></textarea>
+            <input type="submit" value="submit">
+        </form>
+        <hr class="line">
+    </section>
+    <section>
+
+    </section>
 </body>
 
 </html>
