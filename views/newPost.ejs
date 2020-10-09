@@ -7,13 +7,11 @@
             <a href="" id="toggle-btn">ADD YOUR SYNERGY!</a>
         </section>
         <hr class="line">
-        <section id="showForm">
+        <section id="showForm" class="hide">
             <form action="/new" method="POST" class="forms">
-                <input type="text" name="title" id="title" placeholder="title">
-                <input type="text" name="author" id="author" placeholder="author">
-                <input type="text" name="author_url" id="author_url" placeholder="author_url">
-                <textarea name="request" id="request" cols="30" rows="10"></textarea>
-                <select name="category" id="categoy">
+                <input type="text" name="title" id="title" placeholder="title (required)" required>
+                <textarea name="request" id="request" cols="30" rows="10" placeholder="Deine Anfrage (required)" required></textarea>
+                <select name="category" id="categoy (required)" required>
                     <option value="design">Design</option>
                     <option value="css">CSS</option>
                     <option value="html">HTML</option>
@@ -26,7 +24,55 @@
             </form>
             <hr class="line">
         </section>
-        <section id="synergy">
+        <section id="superFeed">
+            <% allRequests.forEach(element => { %>
+            <div class="request">
+                <div class="card-header">
+                    <img src=<%= element.author_url %> alt="" class="profile-picture">
+                    <div class="card-header-info">
+                        <h5 class="name"><%= element.author %></h5>
+                        <h5 class="time"><%= moment(element.createdAt).format('DD.MM.YYYY HH:mm') %> </h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="body-text"><%= element.request %> </h5>
+                </div>
+                <div class="card-footer">
+                    <div class="footer-info">
+                        <div class="comment-box" onclick="toggleComments('<%= element._id %>')">
+                            <img src="/img/Comment.svg" alt="" class="comment">
+                            <h5 class="body-text">Comments</h5>
+                        </div>
+                        <div class="like-box">
+                            <img src="/img/Like.svg" alt="" class="like">
+                            <h5 class="like-number">20</h5>
+                        </div>
+                    </div>
+                    <div id=<%= element._id %> class="toggle">
+                        <% element.comments.forEach(elt => { %>
+                        <div class="single-comment">
+                            <div class="card-header">
+                                <img src=<%= elt.author_url %> alt="" class="profile-picture-comment">
+                                <div class="card-header-info">
+                                    <h5 class="time"><%= moment(elt.createdAt).format('DD.MM.YYYY HH:mm') %> </h5>
+                                    <h5 class="name"><%= elt.author %> hat geantwortet:</h3>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="body-text"><%= elt.comment %> </p>
+                            </div>
+                        </div>
+                        <% }) %>
+                        <h5 class="name">Neuer Kommentar:</h5>
+                        <form action="/newRequestComment/<%= element._id %>" method="POST" class="comment-form">
+                            <textarea name="comment" id="comment" cols="30" rows="10"
+                                placeholder="write a comment"></textarea>
+                            <input type="submit" value="submit">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
     </main>
     <script>
         const showForm = document.getElementById("showForm")
@@ -35,6 +81,10 @@
             e.preventDefault()
             showForm.classList.toggle('hide')
         })
+        function toggleComments(id) {
+            let comment = document.getElementById(id)
+            comment.classList.toggle('toggle')
+        }
     </script>
 
 </body>

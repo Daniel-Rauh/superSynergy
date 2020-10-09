@@ -45,7 +45,12 @@ app.get('/feed', (req, res) => {
 })
 
 app.get('/newPost', (req, res) => {
-    res.status(200).render('newPost')
+    requestModel.find()
+    .sort('-createdAt')
+        .then((result) => {
+            let allRequests = result
+            res.status(200).render('newPost', { allRequests, moment })
+        })
 })
 
 app.post('/new', (req, res) => {
@@ -83,9 +88,9 @@ app.get('/profiles', (req, res) => {
 
 app.get('/newProject', (req, res) => {
     projectModel.find()
+        .sort('-createdAt')
         .catch(err => console.log(err))
         .then((result) => {
-            console.log(result)
             res.status(200).render('newProject', { projects: result })
         })
 })
@@ -128,7 +133,6 @@ app.post('/newFeedComment/:id', (req, res) => {
                 allPostModel.findByIdAndUpdate({ _id: req.params.id }, { comments: comments }, { useFindAndModify: false })
                     .catch(err => console.log(err))
                     .then(() => {
-                        console.log(result.request)
                         console.log(" All updated")
                         requestModel.findOneAndUpdate({ request: result.request }, { comments: comments }, { useFindAndModify: false })
                             .catch(err => console.log(err))
@@ -153,9 +157,104 @@ app.post('/newFeedComment/:id', (req, res) => {
                             })
                     })
             }
-            res.redirect('/')
+            res.redirect('/feed')
         })
 })
+
+app.post('/newLoginComment/:id', (req, res) => {
+    allPostModel.findById(req.params.id)
+        .then((result) => {
+            if (result.comments === undefined) {
+                let comments = [req.body]
+                comments.author = req.user.firstName
+                comments.author_url = req.user.picture
+                allPostModel.findByIdAndUpdate({ _id: req.params.id }, { comments: comments }, { useFindAndModify: false })
+                    .catch(err => console.log(err))
+                    .then(() => {
+                        console.log("Comment posted")
+                    })
+            } else {
+                let comments = result.comments
+                let newComment = req.body
+                newComment.author = req.user.firstName
+                newComment.author_url = req.user.picture
+                comments.push(newComment)
+                allPostModel.findByIdAndUpdate({ _id: req.params.id }, { comments: comments }, { useFindAndModify: false })
+                    .catch(err => console.log(err))
+                    .then(() => {
+                        console.log("Comment updated")
+                    })
+            }
+            res.redirect('/feed')
+        })
+})
+
+app.post('/newProjectComment/:id', (req, res) => {
+    allPostModel.findById(req.params.id)
+        .then((result) => {
+            if (result.comments === undefined) {
+                let comments = [req.body]
+                comments.author = req.user.firstName
+                comments.author_url = req.user.picture
+                allPostModel.findByIdAndUpdate({ _id: req.params.id }, { comments: comments }, { useFindAndModify: false })
+                    .catch(err => console.log(err))
+                    .then(() => {
+                        console.log("Comment posted")
+                    })
+            } else {
+                let comments = result.comments
+                let newComment = req.body
+                newComment.author = req.user.firstName
+                newComment.author_url = req.user.picture
+                comments.push(newComment)
+                allPostModel.findByIdAndUpdate({ _id: req.params.id }, { comments: comments }, { useFindAndModify: false })
+                    .catch(err => console.log(err))
+                    .then(() => {
+                        console.log("Comment updated")
+                    })
+            }
+            res.redirect('/feed')
+        })
+})
+
+app.post('/newRequestComment/:id', (req, res) => {
+    requestModel.findById(req.params.id)
+        .then((result) => {
+            if (result.comments === undefined) {
+                let comments = [req.body]
+                comments.author = req.user.firstName
+                comments.author_url = req.user.picture
+                requestModel.findByIdAndUpdate({ _id: req.params.id }, { comments: comments }, { useFindAndModify: false })
+                    .catch(err => console.log(err))
+                    .then(() => {
+                        console.log(" All updated")
+                        allPostModel.findOneAndUpdate({ request: result.request }, { comments: comments }, { useFindAndModify: false })
+                            .catch(err => console.log(err))
+                            .then(() => {
+                                console.log(" Single updated")
+                            })
+                    })
+            } else {
+                let comments = result.comments
+                let newComment = req.body
+                newComment.author = req.user.firstName
+                newComment.author_url = req.user.picture
+                comments.push(newComment)
+                requestModel.findByIdAndUpdate({ _id: req.params.id }, { comments: comments }, { useFindAndModify: false })
+                    .catch(err => console.log(err))
+                    .then(() => {
+                        console.log(" All updated")
+                        allPostModel.findOneAndUpdate({ request: result.request }, { comments: comments }, { useFindAndModify: false })
+                            .catch(err => console.log(err))
+                            .then((result) => {
+                                console.log(" Single updated")
+                            })
+                    })
+            }
+            res.redirect('/newPost')
+        })
+})
+
 const checkAuth = (req, res, next) => {
     if (req.user) {
         next()

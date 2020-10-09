@@ -60,7 +60,6 @@
                 </div>
             </div>
         </div>
-        <p style="white-space: pre-line"></p>
         <% } else if (element.type === 'profile') {%>
         <div class="request">
             <div class="card-header">
@@ -100,7 +99,7 @@
                     </div>
                     <% }) %>
                     <h5 class="name">Neuer Kommentar:</h5>
-                    <form action="/newFeedComment/<%= element._id %>" method="POST" class="comment-form">
+                    <form action="/newLoginComment/<%= element._id %>" method="POST" class="comment-form">
                         <textarea name="comment" id="comment" cols="30" rows="10"
                             placeholder="write a comment"></textarea>
                         <input type="submit" value="submit">
@@ -155,7 +154,7 @@
                     </div>
                     <% }) %>
                     <h5 class="name">Neuer Kommentar:</h5>
-                    <form action="/newFeedComment/<%= element._id %>" method="POST" class="comment-form">
+                    <form action="/newProjectComment/<%= element._id %>" method="POST" class="comment-form">
                         <textarea name="comment" id="comment" cols="30" rows="10"
                             placeholder="write a comment"></textarea>
                         <input type="submit" value="submit">
