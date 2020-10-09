@@ -71,8 +71,14 @@ app.post('/new', (req, res) => {
         })
 })
 
-app.get('/newProfile', (req, res) => {
-    res.status(200).render('newProfile')
+/*  !!!!!!!!!!!Yahya!!!!!!!!! */
+app.get('/profiles', (req, res) => {
+    profileModel.find()
+        .then((result) => {
+            res.status(200).render('profiles', { profiles: result })
+        })
+
+
 })
 
 app.get('/newProject', (req, res) => {
@@ -83,6 +89,7 @@ app.get('/newProject', (req, res) => {
             res.status(200).render('newProject', { projects: result })
         })
 })
+
 
 app.post('/addProject', (req, res) => {
     const newProject = new projectModel({
