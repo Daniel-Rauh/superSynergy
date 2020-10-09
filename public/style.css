@@ -11,14 +11,36 @@
 main{
     margin: auto 5%;
 }
+a{
+    text-decoration: none;
+    color: black;
+}
+p{
+    white-space: pre-line
+}
+header, footer{
+    font-family: 'Poppins', sans-serif;
+}
 .line{
     margin: 5vh 30%;
     height: 1px; 
     background-color: black;
 }
-p{
-    white-space: pre-line
+.btn{
+    color: #fff;
+    background: #323A45;
+    border: 1px solid #323A45;
+    font-size: 1.2rem;
+    padding: 10px 5px;
 }
+.btn:hover{
+    background: #fff;
+    color: #323A45;
+    cursor: pointer;
+}
+
+
+
 /* Header */
 header nav{
     display: flex;
@@ -34,19 +56,16 @@ header nav ul{
     justify-content: space-between;
     list-style: none;
 }
-header nav ul a{
-    text-decoration: none;
-    color: black;
-}
+
 
 
 
 /* Add new Projects */
-#addProjects section:first-of-type{
+.textForAdding{
     margin-top: 10vh;
     text-align: center;
 }
-#addProjects section:first-of-type a{
+.textForAdding a{
     text-decoration: none;
     color: black;
     font-size: 4em;
@@ -70,40 +89,85 @@ textarea{
     resize: none;
     height: 100px;
 }
-input:last-of-type{
-    color: #fff;
-    background: #323A45;
-    border: 1px solid #323A45;
-    font-size: 1.2rem;
-    padding: 10px 5px;
-}
-input:last-of-type:hover{
-    background: #fff;
-    color: #323A45;
-    cursor: pointer;
-}
+
 /* Projects */
 #projects{
+    margin: 10vh auto;
+}
+#projects section{
     display: grid;
-    grid-template-columns: 40% 50%;
+    grid-template-columns: 45% 55%;
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     margin: 10vh auto;
-    border-bottom-left-radius: 10%;
-    border-top-left-radius: 10%;
+    height: 50vh;
 }
-#projects a img{
+#projects article:first-of-type img{
     width: 100%;
-    border-bottom-left-radius: 10%;
-    border-top-left-radius: 10%;
-
+    height: 100%;
 }
-#projects article >div:first-of-type{
+#projects article:first-of-type a{
+    font-size: 3em;
+}
+#projects article:first-of-type a:hover{
+    color: rgb(61, 215, 172);
+}
+.overlayBox{
+    position: relative;   
+    overflow: hidden;
+}
+.overlay{
+    position: absolute;
+    bottom: 0%;
+    left: 0;
+    right: 100%;
+    background-color: white;
+    width: 100%;
+    height: 0;
+    transition: .5s ease;
+    opacity: .5;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
     text-align: center;
 }
-#projects article h1{
-    font-size: 2em;
+.overlayBox:hover .overlay{
+    bottom: 0;
+    height: 100%;
 }
-#projects article img{
-    height: 50px;
+
+/*Projects right site*/
+#projectsInfos{
+    height: 100%;
+    width: 100%;
+}
+#projectsInfos div{
+    padding: 0 5%;
+}
+#projectsTitle{
+    text-align: center;
+}
+#projects h1{
+    font-size: 2em;
+    font-weight: 400;
+    margin: 20px auto 50px;
+}
+#projects h4{
+    font-weight: normal;
+}
+#projects p{
+    margin-bottom: 20px;
+}
+#projectsAuthor{
+    margin-top: 10vh;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#projectsAuthor img{
+    height: 80px;
+    width: 80px;
     border-radius: 50%;
 }
+

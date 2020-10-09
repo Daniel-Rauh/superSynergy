@@ -1,30 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<%- include('partials/head.ejs') %>
 
 <body>
     <%- include('partials/header.ejs') %>
-    <form action="/new" method="POST">
-        <input type="text" name="title" id="title" placeholder="title">
-        <input type="text" name="author" id="author" placeholder="author">
-        <input type="text" name="author_url" id="author_url" placeholder="author_url">
-        <textarea name="request" id="request" cols="30" rows="10"></textarea>
-        <select name="category" id="categoy">
-            <option value="design">Design</option>
-            <option value="css">CSS</option>
-            <option value="html">HTML</option>
-            <option value="javascript">JavaScript</option>
-            <option value="frontEndFrameworks">FrontEndFrameworks</option>
-            <option value="backEndFrameworks">BackEndFrameworks</option>
-            <option value="database">Database</option>
-        </select>
-        <input type="submit" value="submit">
-    </form>
+    <main>
+        <section class="textForAdding">
+            <a href="" id="toggle-btn">ADD YOUR SYNERGY!</a>
+        </section>
+        <hr class="line">
+        <section id="showForm">
+            <form action="/new" method="POST" class="forms">
+                <input type="text" name="title" id="title" placeholder="title">
+                <input type="text" name="author" id="author" placeholder="author">
+                <input type="text" name="author_url" id="author_url" placeholder="author_url">
+                <textarea name="request" id="request" cols="30" rows="10"></textarea>
+                <select name="category" id="categoy">
+                    <option value="design">Design</option>
+                    <option value="css">CSS</option>
+                    <option value="html">HTML</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="frontEndFrameworks">FrontEndFrameworks</option>
+                    <option value="backEndFrameworks">BackEndFrameworks</option>
+                    <option value="database">Database</option>
+                </select>
+                <input type="submit" value="submit">
+            </form>
+            <hr class="line">
+        </section>
+        <section id="synergy">
+            <% projects.forEach(element => { %>
+            <section>
+
+            </section>
+            <% }) %>
+    </main>
+    <script>
+        const showForm = document.getElementById("showForm")
+        const toggleBtn = document.getElementById("toggle-btn")
+        toggleBtn.addEventListener("click", (e) => {
+            e.preventDefault()
+            showForm.classList.toggle('hide')
+        })
+    </script>
+
 </body>
 
 </html>
